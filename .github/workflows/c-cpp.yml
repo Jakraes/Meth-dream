@@ -32,10 +32,10 @@ jobs:
       run: |
         choco install make
         wget https://github.com/tommyettinger/BearLibTerminal/releases/download/v0.12.1/bearlibterminal_0121.zip -OutFile bearlibterminal_0121.zip
-        Expand-Archive -Path bearlibterminal_0121.zip -DestinationPath .
-        xcopy /y /s bearlibterminal_0121\Include\C\BearLibTerminal.h .\inc
-        xcopy /y /s bearlibterminal_0121\Windows64\BearLibTerminal.lib .\lib\win32
-        xcopy /y /s bearlibterminal_0121\Windows64\BearLibTerminal.dll .\build\win32
+        Expand-Archive -Path bearlibterminal_0121.zip -DestinationPath bearlibterminal
+        xcopy /y /s bearlibterminal\Include\C\BearLibTerminal.h .\inc
+        xcopy /y /s bearlibterminal\Windows64\BearLibTerminal.lib .\lib\win32
+        xcopy /y /s bearlibterminal\Windows64\BearLibTerminal.dll .\build\win32
 
     - name: Create Build Directories
       run: |
