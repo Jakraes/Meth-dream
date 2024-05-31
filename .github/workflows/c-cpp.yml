@@ -21,21 +21,21 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install -y libncurses5-dev libncursesw5-dev
-        wget https://github.com/cfyzium/bearlibterminal/archive/refs/tags/v0.15.6.tar.gz
-        tar -xzf v0.15.6.tar.gz
-        cd bearlibterminal-0.15.6
-        make -C build
-        sudo make -C build install
+        wget https://github.com/tommyettinger/BearLibTerminal/releases/download/v0.12.1/bearlibterminal_0121.tar.bz2
+        tar -xjf bearlibterminal_0121.tar.bz2
+        sudo cp -r bearlibterminal_0121/inc/* /usr/local/include/
+        sudo cp -r bearlibterminal_0121/lib/* /usr/local/lib/
+        sudo ldconfig
 
     - name: Set up dependencies on Windows
       if: matrix.os == 'windows-latest'
       run: |
         choco install make
-        wget https://github.com/cfyzium/bearlibterminal/releases/download/v0.15.6/BearLibTerminal0.15.6-Win.zip -OutFile BearLibTerminal.zip
-        Expand-Archive -Path BearLibTerminal.zip -DestinationPath .
-        xcopy /y /s BearLibTerminal\BearLibTerminal0.15.6-Win\include\BearLibTerminal.h .\inc
-        xcopy /y /s BearLibTerminal\BearLibTerminal0.15.6-Win\lib\BearLibTerminal.lib .\lib\win32
-        xcopy /y /s BearLibTerminal\BearLibTerminal0.15.6-Win\bin\BearLibTerminal.dll .\build\win32
+        wget https://github.com/tommyettinger/BearLibTerminal/releases/download/v0.12.1/bearlibterminal_0121.zip -OutFile bearlibterminal_0121.zip
+        Expand-Archive -Path bearlibterminal_0121.zip -DestinationPath .
+        xcopy /y /s bearlibterminal_0121\inc\* .\inc
+        xcopy /y /s bearlibterminal_0121\lib\win32\* .\lib\win32
+        xcopy /y /s bearlibterminal_0121\bin\win32\* .\build\win32
 
     - name: Create Build Directories
       run: |
@@ -50,8 +50,7 @@ jobs:
 
     - name: Build on Windows
       if: matrix.os == 'windows-latest'
-      run: |
-        make CC=gcc
+      run: make CC=gcc
 
     - name: Run Tests on Linux
       if: matrix.os == 'ubuntu-latest'
