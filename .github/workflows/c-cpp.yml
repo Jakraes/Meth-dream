@@ -23,8 +23,8 @@ jobs:
         sudo apt-get install -y libncurses5-dev libncursesw5-dev
         wget https://github.com/tommyettinger/BearLibTerminal/releases/download/v0.12.1/bearlibterminal_0121.tar.bz2
         tar -xjf bearlibterminal_0121.tar.bz2
-        sudo cp -r Include/C/BearLibTerminal.h /usr/local/include/
-        sudo cp -r Linux64/libBearLibTerminal.so /usr/local/lib/
+        sudo cp -r bearlibterminal_0121/Include/C/BearLibTerminal.h /usr/local/include/
+        sudo cp -r bearlibterminal_0121/Linux64/libBearLibTerminal.so /usr/local/lib/
         sudo ldconfig
 
     - name: Set up dependencies on Windows
