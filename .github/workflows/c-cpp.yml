@@ -1,0 +1,70 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Set up dependencies on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libncurses5-dev libncursesw5-dev
+        wget https://github.com/cfyzium/bearlibterminal/archive/refs/tags/v0.15.6.tar.gz
+        tar -xzf v0.15.6.tar.gz
+        cd bearlibterminal-0.15.6
+        make -C build
+        sudo make -C build install
+
+    - name: Set up dependencies on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        choco install make
+        wget https://github.com/cfyzium/bearlibterminal/releases/download/v0.15.6/BearLibTerminal0.15.6-Win.zip -OutFile BearLibTerminal.zip
+        Expand-Archive -Path BearLibTerminal.zip -DestinationPath .
+        xcopy /y /s BearLibTerminal\BearLibTerminal0.15.6-Win\include\BearLibTerminal.h .\inc
+        xcopy /y /s BearLibTerminal\BearLibTerminal0.15.6-Win\lib\BearLibTerminal.lib .\lib\win32
+        xcopy /y /s BearLibTerminal\BearLibTerminal0.15.6-Win\bin\BearLibTerminal.dll .\build\win32
+
+    - name: Create Build Directories
+      run: |
+        mkdir -p build/linux
+        mkdir -p build/win32
+        cp -r res build/linux/
+        cp -r res build/win32/
+
+    - name: Build on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: make
+
+    - name: Build on Windows
+      if: matrix.os == 'windows-latest'
+      run: |
+        make CC=gcc
+
+    - name: Run Tests on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: make check
+
+    - name: Run Tests on Windows
+      if: matrix.os == 'windows-latest'
+      run: make check
+
+    - name: Distcheck on Linux
+      if: matrix.os == 'ubuntu-latest'
+      run: make distcheck
+
+    - name: Distcheck on Windows
+      if: matrix.os == 'windows-latest'
+      run: make distcheck
