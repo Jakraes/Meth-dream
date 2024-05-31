@@ -1,9 +1,15 @@
-#pragma once
+#ifndef POINT_H
+#define POINT_H
 
-struct Point {
+#include <stdbool.h>
+
+typedef struct {
     int x, y;
+} Point;
 
-    Point(int x, int y) : x(x), y(y){};
-    Point operator+(Point &other);
-    Point operator-(Point &other);
-};
+Point point(int x, int y);
+Point point_add(Point a, Point b);
+Point point_sub(Point a, Point b);
+bool point_eq(Point a, Point b);
+
+#endif

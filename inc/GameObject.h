@@ -1,16 +1,17 @@
-#pragma once
+#ifndef GAMEOBJECT_H
+#define GAMEOBJECT_H
 
-#include "Tile.h"
-#include "Point.h"
+#include "tile.h"
+#include "point.h"
 
-class GameObject {
-    public:
-        Tile& tile;
-        Point position;
+#include <stdlib.h>
 
-        GameObject(Tile& tile, Point position) : tile(tile), position(position) {};
+typedef struct {
+    Point position;
+    Tile* tile;
+} GameObject;
 
-        // Events
-        virtual void onInteract();
-        virtual void onCollision();
-};
+GameObject* gameobject_new(Point position, Tile* tile);
+void gameobject_free(void* obj);
+
+#endif

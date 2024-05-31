@@ -1,19 +1,21 @@
-#pragma once
+#ifndef TILE_H
+#define TILE_H
 
 #include "BearLibTerminal.h"
 
-struct Tile {
-    color_t fgColor;
-    color_t bgColor;
-    uint8_t glyph;
+typedef struct {
+    color_t fg_color;
+    color_t bg_color;
+    wchar_t glyph;
+} Tile;
 
-    Tile(color_t fgColor, color_t bgColor, uint8_t glyph): fgColor(fgColor), bgColor(bgColor), glyph(glyph){};
-};
-
-// Entities
-const Tile TilePlayer = Tile(0xFF'FF'FF'FF, 0x00'00'00'00, '@');
+// Entity
+extern Tile entity_player;
 
 // Terrain
-const Tile TileGrass = Tile(0x00'FF'00'FF, 0x00'00'00'00, '.');
+extern Tile terrain_grass;
 
-// Items
+// Item
+extern Tile item_iron_sword;
+
+#endif
