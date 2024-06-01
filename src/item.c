@@ -1,7 +1,7 @@
 #include "item.h"
 
 void _create_item_iron_sword(Point position, Item* item) {
-    item->object = gameobject_new(position, &item_iron_sword);
+    item->object = gameobject_new(position, &item_iron_sword, false);
 }
 
 void _create_item(Point position, Item* item) {

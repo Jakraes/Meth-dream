@@ -52,6 +52,23 @@ void array_free_contents(Array *array)
 	array->data = realloc(array->data, sizeof(void *) * ARRAY_INCREMENT);
 }
 
+void array_clear(Array *array, bool free)
+{
+	if (free) {
+		array_free_contents(array);
+	}
+
+	for (size_t i = 0; i < array->length; i++)
+	{
+		array->data[i] = NULL;
+	}
+
+	array->length = 0;
+
+	array->_space = ARRAY_INCREMENT;
+	array->data = realloc(array->data, sizeof(void *) * ARRAY_INCREMENT);
+}
+
 void array_push(Array *array, void *obj)
 {
 	array->data[array->length++] = obj;
@@ -108,4 +125,14 @@ void *array_remove_ptr(Array *array, void *obj)
 	}
 
 	return index != -1 ? array_remove(array, index) : NULL;
+}
+
+void* array_get(Array *array, size_t index)
+{
+	if (index < array->length)
+	{
+		return array->data[index];
+	}
+
+	return NULL;
 }

@@ -9,9 +9,10 @@
 typedef struct {
     Point position;
     Tile* tile;
+    bool solid;
 } GameObject;
 
-GameObject* gameobject_new(Point position, Tile* tile);
+GameObject* gameobject_new(Point position, Tile* tile, bool solid);
 void gameobject_free(void* obj);
 
 #endif

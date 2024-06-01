@@ -1,7 +1,7 @@
 #include "terrain.h"
 
 void _create_terrain_grass(Point position, Terrain* terrain) {
-    terrain->object = gameobject_new(position, &terrain_grass);
+    terrain->object = gameobject_new(position, &terrain_grass, false);
 }
 
 void _create_terrain(Point position, Terrain* terrain) {

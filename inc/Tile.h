@@ -11,6 +11,7 @@ typedef struct {
 
 // Entity
 extern Tile entity_player;
+extern Tile entity_player_jump;
 
 // Terrain
 extern Tile terrain_grass;

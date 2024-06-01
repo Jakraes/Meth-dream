@@ -1,18 +1,30 @@
-#include "BearLibTerminal.h"
-
-const char *config = "window: title='The Meth Wizards', size=60x30; font: ./res/font_20x20.png, size=20x20";
+#include "window.h"
+#include "gamemap.h"
+#include "gamemap_entity.h"
 
 int main() {
-    terminal_open();
+    GameMap* map = gamemap_new(10, 10, GAMEMAP_TEST);
+    gamemap_generate(map);
+    
+    window_open();
 
-    terminal_set(config);
-  
-    // Printing text
-    terminal_print(1, 1, "Hello, world!");
-    terminal_refresh();
-  
-    // Wait until user close the window
-    while (terminal_read() != TK_CLOSE);
-  
-    terminal_close();
+    window_draw(map);
+
+    window_refresh();
+
+    while (window_key != TK_CLOSE) {
+        window_get_input();
+
+        gamemap_move_all(map);
+
+        window_clear();
+
+        window_draw(map);
+
+        window_refresh();
+    }
+
+    window_close();
+    
+    return 0;
 }

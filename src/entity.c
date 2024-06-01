@@ -1,7 +1,7 @@
 #include "entity.h"
 
 void _create_entity_player(Point position, Entity* entity) {
-    entity->object = gameobject_new(position, &entity_player);
+    entity->object = gameobject_new(position, &entity_player, true);
 }
 
 void _create_entity(Point position, Entity* entity) {
