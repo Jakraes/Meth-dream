@@ -1,23 +1,31 @@
 CC = gcc
 SRC = ./src/*.c
-INC = ./inc
-LIB = ./lib/
-FLAGS = -lBearLibTerminal -s -O3 -std=c99
-OUT = ./build/
+INC = $(abspath ./inc/)
+LIB = $(abspath ./lib/)
+FLAGS = -std=c99
+OUTDIR = $(abspath ./build/)
 
 ifeq ($(OS),Windows_NT)
-	LIB := $(LIB)win32
-	OUT := $(OUT)win32/app.exe 
+	LIB := $(LIB)/win32
+	OUTDIR := $(OUTDIR)/win32/
+	OUT := $(OUTDIR)app.exe
+	FLAGS += -lBearLibTerminal
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		LIB := $(LIB)linux
-		OUT := $(OUT)linux/app 
+		LIB := $(LIB)/linux/
+		OUTDIR := $(OUTDIR)/linux/
+		OUT := $(OUTDIR)app
+		FLAGS += -lBearLibTerminal -Wl,-rpath=$(LIB)
 	endif
 endif
 
-all:
+all: config
 	$(CC) $(SRC) -I$(INC) -L$(LIB) $(FLAGS) -o $(OUT)
+
+config:
+	mkdir -p $(OUTDIR)
+	cp -r ./res $(OUTDIR)/res
 
 run: all
 ifeq ($(OS),Windows_NT)
@@ -28,3 +36,6 @@ else
 		./build/linux/app
 	endif
 endif
+
+clean:
+	rm -rf ./build
